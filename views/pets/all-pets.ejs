@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pets</title>
+</head>
+<body>
+        <%- include('../navbar') %>
+
+    <h1>Pets</h1>
+
+    <% allPets.forEach(onePet => { %>
+        <h3>Name: <%= onePet.name %></h3>
+        <p>Category: <%= onePet.category %></p>
+        <p>Description: <%= onePet.description %></p>
+        <p>Date of birth: <%= onePet.dob.toDateString() %></p>
+
+        <p>Adopted: <%= onePet.adopted %></p>
+        <p>Owner: <%= onePet.owner.username %></p>
+        <br>
+    <% }) %>
+    
+</body>
+</html>

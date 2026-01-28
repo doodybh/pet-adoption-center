@@ -10,9 +10,25 @@
     <h1>Sign in</h1>
     <form action="/auth/sign-in" method="POST">
       <label for="username">Username:</label>
-      <input type="text" name="username" id="username" />
+      <input
+        type="text"
+        name="username"
+        id="username"
+        pattern=".{3,20}"
+        title="Username must be 3-20 characters long"
+        required
+      />
+
       <label for="password">Password:</label>
-      <input type="password" name="password" id="password" />
+      <input
+        type="password"
+        name="password"
+        id="password"
+        pattern="(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W_]).*"
+        title="Password must contain at least 1 uppercase letter, 1 lowercase letter, 1 number, and 1 special character"
+        required
+      />
+
       <button type="submit">Sign in</button>
     </form>
   </body>

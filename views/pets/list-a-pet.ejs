@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>List Your Pet</title>
+  </head>
+  <body>
+    <%- include('../navbar') %>
+
+    <h1>List Your Pet</h1>
+    <form action="/pets/list-a-pet" method="post">
+      <label for="name">Name of pet:</label>
+      <input type="text" name="name" id="name" required />
+
+      <label for="category"></label>
+      <select name="category" id="category">
+        <option value="Fluffies">Fluffies</option>
+        <option value="Chripers">Chripers</option>
+        <option value="Slitherers">Slitherers</option>
+        <option value="Pocket Pets">Pocket Pets</option>
+        <option value="Fishies">Fishies</option>
+        <option value="Others">Others</option>
+      </select>
+
+      <label for="dob">Pet's date of birth:</label>
+      <input type="date" name="dob" id="dob" required />
+      <label for="description">Description:</label>
+      <input type="text" name="description" id="description" required />
+      
+<button>List</button>
+  </body>
+</html>
