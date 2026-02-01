@@ -11,7 +11,6 @@ const userSchema = new mongoose.Schema({
     lowercase: true,
   },
 
-  // gonna add regex to (password) for special characters and numbers and uppercase
   password: {
     type: String,
     required: true,
@@ -32,14 +31,6 @@ const userSchema = new mongoose.Schema({
     match:
       /^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@[a-zA-Z0-9]+(-[a-zA-Z0-9]+)?\.[a-zA-Z]{2,3}(\.[a-zA-Z]{2,3})?$/,
   },
-
-  // adoptedPets: [
-  //   {
-  //     type: mongoose.Schema.Types.ObjectId,
-  //     ref: "Pet",
-  //   },
-  // ],
-  //more constraints are gonna be added later on.
 });
 
 const User = mongoose.model("User", userSchema);

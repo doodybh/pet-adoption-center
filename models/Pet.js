@@ -25,24 +25,15 @@ const petSchema = new mongoose.Schema({
     maxLength: 200,
   },
 
-  //probably gonna change (age) to something else because if there is months or days.
-  //I could include date of birth as a way to work around this.
   dob: {
     type: Date,
     required: true,
   },
 
-  // adopted: {
-  //   type: Boolean,
-  //   required: true,
-  //   default: false,
-  // },
-
   owner: {
     type: mongoose.Schema.Types.ObjectId,
     ref: "User",
   },
-  //more constraints are gonna be added later on.
 
   picture: {
     type: String,
