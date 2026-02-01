@@ -32,11 +32,11 @@ const petSchema = new mongoose.Schema({
     required: true,
   },
 
-  adopted: {
-    type: Boolean,
-    required: true,
-    default: false,
-  },
+  // adopted: {
+  //   type: Boolean,
+  //   required: true,
+  //   default: false,
+  // },
 
   owner: {
     type: mongoose.Schema.Types.ObjectId,
@@ -46,6 +46,7 @@ const petSchema = new mongoose.Schema({
 
   picture: {
     type: String,
+    required: true,
   },
 });
 

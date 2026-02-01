@@ -33,12 +33,12 @@ const userSchema = new mongoose.Schema({
       /^[a-zA-Z0-9]+(\.[a-zA-Z0-9]+)?@[a-zA-Z0-9]+(-[a-zA-Z0-9]+)?\.[a-zA-Z]{2,3}(\.[a-zA-Z]{2,3})?$/,
   },
 
-  adoptedPets: [
-    {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Pet",
-    },
-  ],
+  // adoptedPets: [
+  //   {
+  //     type: mongoose.Schema.Types.ObjectId,
+  //     ref: "Pet",
+  //   },
+  // ],
   //more constraints are gonna be added later on.
 });
 

@@ -1,12 +1,96 @@
-<div>
-    <% if (user){ %>
-        <a href="/pets/list-a-pet">List a pet</a>
-        <a href="/auth/sign-out">Logout</a>
-        
-        <% } else{ %>
-    <a href="/pets">Pets</a>
-    <a href="/auth/sign-up">Sign up</a>
-    <a href="/auth/sign-in">Login</a>
+<nav class="navbar navbar-expand-lg bg-white border-bottom">
+  <div class="container">
+    <a class="navbar-brand fw-bold" href="/">PetTopia</a>
 
-    <% } %>
-</div>
+    <button
+      class="navbar-toggler"
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#nav"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="nav">
+      <ul class="navbar-nav ms-auto gap-2 align-items-lg-center">
+        <li class="nav-item">
+          <a class="nav-link" href="/pets">Pets</a>
+        </li>
+
+        <% if (user) { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/pets/my-pets">My Pets</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/pets/list-a-pet">List a pet</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/sign-out">Logout</a>
+          </li>
+        <% } else { %>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/sign-up">Sign up</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="/auth/sign-in">Login</a>
+          </li>
+        <% } %>
+      </ul>
+    </div>
+  </div>
+</nav>
+
+<script>
+  const path = window.location.pathname;
+
+  document.querySelectorAll(".nav-link").forEach(a => a.classList.remove("active"));
+
+  const petsLink = document.querySelector('a.nav-link[href="/pets"]');
+  const myPetsLink = document.querySelector('a.nav-link[href="/pets/my-pets"]');
+  const listPetLink = document.querySelector('a.nav-link[href="/pets/list-a-pet"]');
+  const signUpLink = document.querySelector('a.nav-link[href="/auth/sign-up"]');
+  const loginLink = document.querySelector('a.nav-link[href="/auth/sign-in"]');
+
+  const reserved = new Set(["my-pets", "list-a-pet"]);
+  const match = path.match(/^\/pets\/([^/]+)$/);
+  const isPetDetails = !!(match && !reserved.has(match[1]));
+
+  const isMyPets = path == "/pets/my-pets";
+  const isEditPet = /^\/pets\/[^/]+\/edit$/.test(path);
+  const isListPet = path == "/pets/list-a-pet";
+
+  if (petsLink && (path == "/pets" || isPetDetails)) {
+    petsLink.classList.add("active");
+  } else if (myPetsLink && (isMyPets || isEditPet)) {
+    myPetsLink.classList.add("active");
+  } else if (listPetLink && isListPet) {
+    listPetLink.classList.add("active");
+  } else if (signUpLink && path == "/auth/sign-up") {
+    signUpLink.classList.add("active");
+  } else if (loginLink && path == "/auth/sign-in") {
+    loginLink.classList.add("active");
+  }
+</script>
+
+
+
+
+
+<style>
+  .nav-link.active {
+    font-weight: 600;
+    color: #0d6efd !important;
+    position: relative;
+  }
+
+  .nav-link.active::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -6px;
+    width: 100%;
+    height: 2px;
+    background-color: #0d6efd;
+    border-radius: 2px;
+  }
+</style>
