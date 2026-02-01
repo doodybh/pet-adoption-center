@@ -12,7 +12,15 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage });
+const upload = multer({
+  storage,
+  limits: { fileSize: 2 * 1024 * 1024 },
+  fileFilter: (req, file, cb) => {
+    const allowed = ["image/jpeg", "image/png", "image/webp"];
+    if (allowed.includes(file.mimetype)) return cb(null, true);
+    cb(new Error("INVALID_FILE_TYPE"));
+  },
+});
 
 const router = require("express").Router();
 
@@ -32,12 +40,29 @@ router.get("/list-a-pet", isSignedIn, async (req, res) => {
 router.post(
   "/list-a-pet",
   isSignedIn,
-  upload.single("picture"),
+  (req, res, next) => {
+    upload.single("picture")(req, res, (err) => {
+      if (err) {
+        const msg =
+          err.message == "INVALID_FILE_TYPE"
+            ? "Only JPG, PNG, or WEBP images are allowed."
+            : "Image upload failed. Max size is 2MB.";
+        return res.render("pets/list-a-pet.ejs", { error: msg });
+      }
+      next();
+    });
+  },
   async (req, res) => {
-    const listedPet = await Pet.create({
+    if (!req.file) {
+      return res.render("pets/list-a-pet.ejs", {
+        error: "Please upload a picture.",
+      });
+    }
+
+    await Pet.create({
       ...req.body,
       owner: req.session.user._id,
-      picture: req.file ? `/uploads/${req.file.filename}` : "",
+      picture: `/uploads/${req.file.filename}`,
     });
 
     res.redirect("/pets/my-pets");
@@ -69,13 +94,28 @@ router.get("/:id", async (req, res) => {
 router.post(
   "/:id/edit",
   isSignedIn,
-  upload.single("picture"),
-  async (req, res) => {
-    const pet = await Pet.findById(req.params.id);
+  (req, res, next) => {
+    upload.single("picture")(req, res, async (err) => {
+      const pet = await Pet.findById(req.params.id);
 
-    if (!pet || !pet.owner || !pet.owner.equals(req.session.user._id)) {
-      return res.redirect("/pets/my-pets");
-    }
+      if (!pet || !pet.owner || !pet.owner.equals(req.session.user._id)) {
+        return res.redirect("/pets/my-pets");
+      }
+
+      if (err) {
+        const msg =
+          err.message == "INVALID_FILE_TYPE"
+            ? "Only JPG, PNG, or WEBP images are allowed."
+            : "Image upload failed. Max size is 2MB.";
+        return res.render("pets/edit-pet.ejs", { pet, error: msg });
+      }
+
+      req.petFromDb = pet;
+      next();
+    });
+  },
+  async (req, res) => {
+    const pet = req.petFromDb;
 
     const updatedData = { ...req.body };
 

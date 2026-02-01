@@ -28,6 +28,10 @@
         <div class="card-body p-4">
           <h1 class="h4 mb-3">Edit Pet</h1>
 
+          <% if (typeof error !== "undefined" && error) { %>
+            <div class="alert alert-danger"><%= error %></div>
+          <% } %>
+
           <% if (pet.picture) { %>
             <img
               src="<%= pet.picture %>"
@@ -107,8 +111,6 @@
                 required
                 data-msg-required="Please choose the pet’s date of birth."
               />
-            <div class="invalid-feedback"></div>
-
               <div class="invalid-feedback"></div>
             </div>
 
@@ -128,7 +130,7 @@
                 class="form-control"
                 type="file"
                 name="picture"
-                accept="image/*"
+                accept="image/jpeg,image/png,image/webp"
               />
             </div>
 
